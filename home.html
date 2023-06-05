@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather App</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+<body>
+  <h1>Weather App</h1>
+
+  <div id="location">
+    <label for="city">City:</label>
+    <input type="text" id="city" placeholder="Enter city name">
+    <button onclick="getWeather()">Get Weather</button>
+  </div>
+
+  <div id="weather-info">
+    <h2 id="city-name"></h2>
+    <p id="temperature"></p>
+    <p id="description"></p>
+  </div>
+
+  <script>
+    function getWeather() {
+      var city = document.getElementById("city").value;
+      var apiKey = "9bf3ae84970f4c49ae7180601230506"; // Replace with your actual API key
+      var url = "https://api.weatherapi.com/v1/current.json?key=" + apiKey + "&q=" + city;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("city-name").textContent = data.location.name + ", " + data.location.country;
+          document.getElementById("temperature").textContent = "Temperature: " + data.current.temp_c + "°C";
+          document.getElementById("description").textContent = "Condition: " + data.current.condition.text;
+        })
+        .catch(error => {
+          console.log("Error:", error);
+          document.getElementById("city-name").textContent = "Error fetching weather data";
+          document.getElementById("temperature").textContent = "";
+          document.getElementById("description").textContent = "";
+        });
+    }
+  </script>
+</body>
+</html>
